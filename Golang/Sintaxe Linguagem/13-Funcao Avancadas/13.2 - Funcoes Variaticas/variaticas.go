@@ -14,6 +14,6 @@ func soma(numeros ...int) int {
 }
 
 func main() {
-	totalDaSoma := soma()
+	totalDaSoma := soma(2, 5, 7, 9)
 	fmt.Println(totalDaSoma)
 }
