@@ -1,37 +1,22 @@
 package client
 
 import (
-	"encoding/json"
-	"log"
-	"modulo/model"
-	"net/http"
+	"modulo/service"
 
 	"github.com/gin-gonic/gin"
 )
 
 func MyapiController(c *gin.Context) {
+	currencyID := c.Request.URL.Query().Get("ID")
+	if currencyID == "" {
+		currencyID = "bitcoin"
+	}
 
-	resp, err := http.Get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd")
+	resp, err := service.GetCurrencyValue(currencyID)
 	if err != nil {
-		log.Fatal("ooopsss an error occurred, please try again")
+		c.JSON(206, resp)
+		return
 	}
 
-	defer resp.Body.Close()
-
-	var cResp model.Cryptoresponse
-
-	if err := json.NewDecoder(resp.Body).Decode(&cResp); err != nil {
-		log.Fatal("ooopsss! an error occurred, please try again")
-	}
-
-	respFinal := model.Response{
-		ID: "BTC",
-		Content: model.Content{
-			Price:    cResp.Bitcoin.Usd,
-			Currency: "USD",
-		},
-		Partial: false,
-	}
-
-	c.JSON(200, respFinal)
+	c.JSON(200, resp)
 }
