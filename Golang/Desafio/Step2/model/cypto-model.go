@@ -1,18 +1,18 @@
 package model
 
-type Cryptoresponse struct {
-	Bitcoin struct {
-		Usd int `json:"usd"`
-	} `json:"bitcoin"`
+type CurrencyResponse map[string]ContentResponse
+
+type ContentResponse struct {
+	Usd float64 `json:"usd"`
 }
 
 type Response struct {
-	ID      string  `json:"id"`
-	Content Content `json:"content"`
-	Partial bool    `json:"partial"`
+	ID      string   `json:"id"`
+	Content *Content `json:"content,omitempty"`
+	Partial bool     `json:"partial"`
 }
 
 type Content struct {
-	Price    int    `json:"price"`
-	Currency string `json:"currency"`
+	Price    float64 `json:"price"`
+	Currency string  `json:"currency"`
 }
