@@ -28,6 +28,6 @@ func main() {
 		waitGroup.Done()
 	}()
 
-	waitGroup.Wait()
+	waitGroup.Wait() //esperar as goroutines executarem para finalizar
 
 }
